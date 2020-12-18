@@ -6,3 +6,5 @@ import os
 
 def template_test(request):
     return render(request, 'example.html')
+
+
