@@ -12,8 +12,6 @@ def template_test(request):
     return render(request, 'example.html')
 
 
-<<<<<<< Updated upstream
-=======
 def order(request):
 
     db = sqlite3.connect('mainApp.db')
@@ -94,5 +92,3 @@ def order(request):
     context = {'orderlist':orderlist, 'form':form, 'form2':form2}
     return render(request, 'order.html', context)
 
-    
->>>>>>> Stashed changes
