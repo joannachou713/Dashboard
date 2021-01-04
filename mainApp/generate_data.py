@@ -10,7 +10,7 @@ StringBase = '\u7684\u4e00\u4e86\u662f\u6211\u4e0d\u5728\u4eba\u4eec\u6709\u6765
 
 
 def getSex():
-         return random.choice (( 'male', 'female'))
+    return random.choice (( 'male', 'female'))
  ## Each message includes: name, gender, age, birthplace,
  # Phone number, address, e-mail, math, English scores)
 
@@ -24,7 +24,7 @@ def getTelNo():
     return ''.join((str(random.randint(0,9)) for i in range(11)))
 
 def getNameOrAddress(flag):
-         '' 'Flag = 1 indicates return random name, flag = 0 represents a random address return' ''
+    '' 'Flag = 1 indicates return random name, flag = 0 represents a random address return' ''
     result=''
     if flag==1:
         rangestart,rangeend=2,5
@@ -51,14 +51,15 @@ def main(filename,exc):
 
     with open(filename,'w',encoding='utf-8') as fp:
         fp.write('Name,Sex,Age,Native,TelNo,Address,Email,Math,English\n')
-                 ## fn = r'information.xlsx '# filename
-                 wb = Workbook () # Create a workbook
-                 ws = wb.create_sheet (title = 'information') # Create a worksheet
-                 ws [ 'A1'] = 'name' # cell assignment
-                 ws [ 'B1'] = 'Sex'
-                 ws [ 'C1'] = 'aged'
-                 ws [ 'D1'] = 'origin'
-                 ws [ 'E1'] = 'math'
+        ## fn = r'information.xlsx '# filename
+        wb = Workbook () # Create a workbook
+        ws = wb.create_sheet (title = 'information') # Create a worksheet
+        ws ['A1'] = 'name' # cell assignment
+        ws ['B1'] = 'Sex'
+        ws ['C1'] = 'aged'
+        ws ['D1'] = 'origin'
+        ws ['E1'] = 'math'
+        
         for i in range(1000):
             name=getNameOrAddress(1)
             sex=getSex()
@@ -116,3 +117,4 @@ for r in range(10,15):
     for c in range(3,8):
                  ws.cell (row = r, column = c, value = r * c) # write cell data
 wb.save(fn)
+'''

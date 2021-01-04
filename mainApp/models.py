@@ -25,6 +25,18 @@ class Order(models.Model):
 
     client_id  = models.ForeignKey(Client, on_delete=models.CASCADE)
 
+class Product(models.Model):
+    product_id = models.IntegerField()
+    product_name = models.CharField(max_length=10)
+    product_category = models.CharField(max_length=10)
+    price = models.IntegerField()
+    cost = models.IntegerField()
+    holding_cost = models.IntegerField()
+    inventory = models.IntegerField()
+    storage_location = models.CharField(max_length=20)
+    lead_time_days = models.IntegerField()
+    safety_stock = models.IntegerField()
+
 class Status(models.Model):
     SELVALUE = (
         ('已審核', '已審核'),
