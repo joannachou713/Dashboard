@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Marketing Page
+{% endblock %}
+
+{% block content %}
+<script>
+    document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(3)').classList.add('active')
+    document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
+    
+    const handleRRT = (m) => {
+        let rrt = "{{rrt3}} <small>%</small>"
+        let show = "3 月留存率"
+        switch (m) {
+            case 1:
+                rrt = "{{rrt1}} <small>%</small>"
+                show = "1 月留存率"
+                break;
+            case 2:
+                rrt = "{{rrt2}} <small>%</small>"
+                show = "2 月留存率"
+                break;
+            default:
+                break;
+        }
+        document.querySelector('#rrt').innerHTML = rrt
+        document.querySelector('#mon-rrt').innerHTML = show
+    }
+
+    const handleLSS = (m) => {
+        let lss = "{{lss3}} <small>%</small>"
+        let show = "3 月流失率"
+        switch (m) {
+            case 1:
+                lss = "{{lss1}} <small>%</small>"
+                show = "1 月流失率"
+                break;
+            case 2:
+                lss = "{{lss2}} <small>%</small>"
+                show = "2 月流失率"
+                break;
+            default:
+                break;
+        }
+        document.querySelector('#lss').innerHTML = lss
+        document.querySelector('#mon-lss').innerHTML = show
+    }
+
+    const handleSRT = (m) => {
+        let lss = "{{srt3}} <small>%</small>"
+        let show = "3 月存活率"
+        switch (m) {
+            case 1:
+                lss = "{{srt1}} <small>%</small>"
+                show = "1 月存活率"
+                break;
+            case 2:
+                lss = "{{srt2}} <small>%</small>"
+                show = "2 月存活率"
+                break;
+            default:
+                break;
+        }
+        document.querySelector('#srt').innerHTML = lss
+        document.querySelector('#mon-srt').innerHTML = show
+    }
+</script>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-warning card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">content_copy</i>
+                    </div>
+                    <p class="card-category" id='mon-rrt'>當月留存率</p>
+                    <h3 class="card-title">
+                        <div id='rrt'>{{rrt3}}
+                            <small>%</small>
+                        </div>
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats d-flex justify-content-between justify-items-center w-100">
+                        <button class='btn' style="width: 65px!important;" onclick='handleRRT(1)'>1 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleRRT(2)'>2 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleRRT(3)'>3 月</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">store</i>
+                    </div>
+                    <p class="card-category" id='mon-lss'>當月流失率</p>
+                    <h3 class="card-title">
+                        <div id='lss'>{{lss3}}
+                            <small>%</small>
+                        </div>
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats d-flex justify-content-between justify-items-center w-100">
+                        <button class='btn' style="width: 65px!important;" onclick='handleLSS(1)'>1 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleLSS(2)'>2 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleLSS(3)'>3 月</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-danger card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">info_outline</i>
+                    </div>
+                    <p class="card-category" id='mon-srt'>當月存活率</p>
+                    <h3 class="card-title">
+                        <div id='srt'>{{srt3}}
+                            <small>%</small>
+                        </div>
+                    </h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats d-flex justify-content-between justify-items-center w-100">
+                        <button class='btn' style="width: 65px!important;" onclick='handleSRT(1)'>1 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleSRT(2)'>2 月</button>
+                        <button class='btn' style="width: 65px!important;" onclick='handleSRT(3)'>3 月</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-info card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-twitter"></i>
+                    </div>
+                    <p class="card-category">平均存續期間</p>
+                    <h3 class="card-title">{{avg_term}}</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <i class="material-icons">update</i> Just Updated
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-info">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">顧客分群結果圖表</span>
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#quant" data-toggle="tab">
+                                        <i class="material-icons">bug_report</i> 總購買數量
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#order_n" data-toggle="tab">
+                                        <i class="material-icons">code</i> 總下單數
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#payment_all" data-toggle="tab">
+                                        <i class="material-icons">cloud</i> 總已付金額
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="quant">
+                            <img src="data:image/png;base64, {{ u_q }}" alt="" style="width: 100%;" />
+                        </div>
+                        <div class="tab-pane" id="order_n">
+                            <img src="data:image/png;base64, {{ u_o }}" alt="" style="width: 100%;" />
+                        </div>
+                        <div class="tab-pane" id="payment_all">
+                            <img src="data:image/png;base64, {{ u_p }}" alt="" style="width: 100%;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header card-header-tabs card-header-success">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <span class="nav-tabs-title">顧客分群結果</span>
+                            <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#profile" data-toggle="tab">
+                                        <i class="material-icons">bug_report</i> 種類一(r)
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#messages" data-toggle="tab">
+                                        <i class="material-icons">code</i> 種類二(g)
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#settings" data-toggle="tab">
+                                        <i class="material-icons">cloud</i> 種類三(b)
+                                        <div class="ripple-container"></div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            {{type0 | safe}}
+                            <!-- {% for t in type0 %}
+                            {t}
+                            {%endfor%} -->
+                        </div>
+                        <div class="tab-pane" id="messages">
+                            {{type1 | safe}}
+                        </div>
+                        <div class="tab-pane" id="settings">
+                            {{type2 | safe}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

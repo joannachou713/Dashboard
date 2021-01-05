@@ -22,9 +22,13 @@ class Order(models.Model):
     packing_cost = models.IntegerField()
     packing_time = models.DateField(blank=True)
     arrive_time = models.DateField(blank=True)
-
     client_id  = models.ForeignKey(Client, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
+    # class Meta:
+	# 	ordering = ['-order_time',]
+    
 class Status(models.Model):
     SELVALUE = (
         ('已審核', '已審核'),
