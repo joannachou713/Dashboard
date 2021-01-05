@@ -253,10 +253,10 @@ def refund(request):
             rep, = rep
             status = '{}'.format(rep)
             if status == "退貨審核不通過":
-                form2 = '此訂單先前已被審核為不通過，貨品已退回顧客'
+                form2 = '此訂單先前已被審核為不通過，貨品已退回顧客，請重新整理頁面！'
                 #print("STATUS: ",status)
             elif status == "已辦理退貨":
-                form2 = '此訂單先前已被審核為通過，貨品已退回倉庫'
+                form2 = '此訂單先前已被審核為通過，貨品已退回倉庫，請重新整理頁面！'
             else:
                 if request.method == "POST":
                     form = checkReturn(request.POST)		
