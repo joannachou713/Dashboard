@@ -18,3 +18,4 @@ class FormStatus(forms.Form):
        ('退貨審核不通過', '退貨審核不通過'),
     )
     response = forms.CharField(label="response",widget=forms.widgets.Select(choices=SELVALUE),initial=SELVALUE[0])
+
