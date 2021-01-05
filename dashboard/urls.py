@@ -16,11 +16,13 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from mainApp.views import template_test,order
+from mainApp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', template_test),
     path('test/order_list', order),
+    path('marketing/', renderMarketing),
+    path('rrt/<int:m>', rrt),
 
 ]

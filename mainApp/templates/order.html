@@ -1,178 +1,114 @@
-<!--
-=========================================================
-* Material Dashboard Dark Edition - v2.1.0
-=========================================================
 
-* Product Page: https://www.creative-tim.com/product/material-dashboard-dark
-* Copyright 2019 Creative Tim (http://www.creative-tim.com)
+{% extends "base.html" %}
+{% load static %}
 
-* Coded by www.creative-tim.com
+{% block title %}
+顧客訂單管理
+{% endblock %}
 
-=========================================================
 
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../static/img/favicon.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <!-- <style type="order/css">
-   .form{
-     width: 250px;
-     height: 30px
-   }
-  </style> -->
-  <title>
-    顧客訂單管理
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- CSS Files -->
-  <link href="../static/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../static/demo/demo.css" rel="stylesheet" />
-</head>
-<style type="text/css">
-  #rightBar {
-      z-index: 9999;
-      width: 50px;
-      position: fixed;
-      right: 10px;
-      bottom: 5%;
-      height: auto;
-  }
-  #rightBar .btn {
-      width: 50px;
-      height: 50px;
-      text-align: center;
-      line-height: 20px;
-      display: inline-block;
-      border-radius: 10px;
-      cursor: pointer;
-      background-color:rgb(100, 100, 100);
-  }
-  </style>
-  <div id="rightBar">
-  <div class="btn" id="shougongBtn"><span><a href=
-"javascript:%20window.scrollTo(0,%200);"><img src="https://hosting.url.com.tw/img/go-top.png" /></a></span></div>
-  </div>
-<body class="dark-edition">
-
-      <!-- End Navbar -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <p class="card-category"> 顧客訂單</p>
-                </div>
-                <div class="card-body">
-                  <div class="form">
-                    <form method="POST" class="post-form" action="">
-                      {% csrf_token %}
-                      {{form2}}
-                      <select id="response" name="response">
-                        <option selected="" class="select" name="response">&nbsp;請選擇更改狀態</option>
-                        {% for key,value in form.SELVALUE %}
-                            <option value="{{key}}" name="response">{{value}}</option>
-                        {% endfor %}
-                      </select>
-                      <input type="submit" class="btn" value="更改">
-                    </form>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>
-                          訂單編號
-                        </th>
-                        <th>
-                          顧客編號
-                        </th>
-                        <th>
-                          購買產品
-                        </th>
-                        <th>
-                          數量
-                        </th>
-                        <th>
-                          產品金額
-                        </th>
-                        <th>
-                          收件地址
-                          </th>
-                        <th>
-                          運費
-                        </th>
-                        <th>
-                          付款金額
-                        </th>
-                        <th>
-                            通路
-                        </th>
-                        <th>
-                          下訂時間
-                          </th>
-
-                        <th>
-                          包裹時間
-                        </th>
-                        <th>
-                          到貨時間
-                        </th>
-                        <th>
-                          訂單狀態
-                        </th>
-                      </thead>
-                      <tbody>                            
-                        <tr>
-                            {% for order in orderlist %}
-                        <tr>
-                            <td>{{order.0}}</td>
-                            <td>{{order.1}}</td>
-                            <td>{{order.2}}</td>
-                            <td>{{order.3}}</td>
-                            <td>${{order.4}}</td>
-                            <td>{{order.5}}</td>
-                            <td>${{order.6}}</td>
-                            <td>${{order.7}}</td>
-                            <td>{{order.8}}</td>
-                            <td>{{order.9}}</td>
-                            <td>{{order.10}}</td>
-                            <td>{{order.11}}</td>
-                            <td>{{order.12}}</td>
-                        </tr>
-                        {% endfor %}
-                        </tr>
-                      
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <p class="card-category"> 顧客訂單</p>
+          </div>
+          <div class="card-body">
+            <div class="form">
+              <form method="POST" class="post-form" action="">
+                {% csrf_token %}
+                {{form2}}
+                <select id="response" name="response">
+                  <option selected="" class="select" name="response">&nbsp;請選擇更改狀態</option>
+                  {% for key,value in form.SELVALUE %}
+                  <option value="{{key}}" name="response">{{value}}</option>
+                  {% endfor %}
+                </select>
+                <input type="submit" class="btn" value="更改" onclick="()=>window.location.reload()">
+              </form>
             </div>
-          
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    訂單編號
+                  </th>
+                  <th>
+                    顧客編號
+                  </th>
+                  <th>
+                    購買產品
+                  </th>
+                  <th>
+                    數量
+                  </th>
+                  <th>
+                    產品金額
+                  </th>
+                  <th>
+                    收件地址
+                  </th>
+                  <th>
+                    運費
+                  </th>
+                  <th>
+                    付款金額
+                  </th>
+                  <th>
+                    通路
+                  </th>
+                  <th>
+                    下訂時間
+                  </th>
+
+                  <th>
+                    包裹時間
+                  </th>
+                  <th>
+                    到貨時間
+                  </th>
+                  <th>
+                    訂單狀態
+                  </th>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for order in orderlist %}
+                  <tr>
+                    <td>{{order.0}}</td>
+                    <td>{{order.1}}</td>
+                    <td>{{order.2}}</td>
+                    <td>{{order.3}}</td>
+                    <td>${{order.4}}</td>
+                    <td>{{order.5}}</td>
+                    <td>${{order.6}}</td>
+                    <td>${{order.7}}</td>
+                    <td>{{order.8}}</td>
+                    <td>{{order.9}}</td>
+                    <td>{{order.10}}</td>
+                    <td>{{order.11}}</td>
+                    <td>{{order.12}}</td>
+                  </tr>
+                  {% endfor %}
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      
-   
+
     </div>
   </div>
+</div>
+<script>
+  if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
 
-  <script>
-    if ( window.history.replaceState ) {
-      window.history.replaceState( null, null, window.location.href );
-    }
-  </script>
-</body>
-
-
-</html>
+{% endblock %}
