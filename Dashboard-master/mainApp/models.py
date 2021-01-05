@@ -32,6 +32,8 @@ class Status(models.Model):
         ('已達包裹中心', '已達包裹中心'),
         ('已達物流中心', '已達物流中心'),
         ('已出貨', '已出貨'),
-        ('已到達', '已到達')
+        ('已到達', '已到達'),
+        ('已辦理退貨', '已辦理退貨'),
+        ('退貨審核不通過', '退貨審核不通過')
     )
     response = models.CharField(default=0, choices=FormStatus.SELVALUE, verbose_name='response',max_length=20)

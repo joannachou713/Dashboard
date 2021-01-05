@@ -17,6 +17,7 @@
   font-size: .875rem;
 }
 
+
 *,
 *::before,
 *::after {
@@ -84,6 +85,7 @@ h6 {
 p {
   margin-top: 0;
   margin-bottom: 1rem;
+  font-size: 20px;
 }
 
 abbr[title],
@@ -250,6 +252,7 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+
 }
 
 button,
@@ -671,6 +674,8 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  width: 80px;
+  height: 30px;
 }
 
 button,
@@ -4795,6 +4800,8 @@ tbody.collapse.show {
 .navbar-dark .navbar-text a:focus {
   color: #ffffff;
 }
+
+
 
 .card {
   position: relative;
@@ -13586,6 +13593,8 @@ select,
 select.form-control {
   -moz-appearance: none;
   -webkit-appearance: none;
+  width: 110px;
+  height: 30px;
 }
 
 @media (min-width: 576px) {
@@ -19561,6 +19570,8 @@ Copyright (c) 2015 Daniel Eden
   background-color: #9095a2;
   border-color: #9095a2;
   box-shadow: 0 2px 2px 0 rgba(144, 149, 162, 0.14), 0 3px 1px -2px rgba(144, 149, 162, 0.2), 0 1px 5px 0 rgba(144, 149, 162, 0.12);
+  font-size: 16px;
+  padding: 0.4% 1.1% 1% 1%;
 }
 
 .dark-edition .btn:hover,
