@@ -21,9 +21,9 @@ from mainApp.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('test/', template_test),
-    path('test/order_list', order),
+    path('order_list/', order),
     path('marketing/', renderMarketing),
     path('rrt/<int:m>', rrt),
-    path('test/return', refund),
+    path('return/', refund),
 
 ]

@@ -7,6 +7,10 @@
 
 
 {% block content %}
+<script>
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(5)').classList.add('active')
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
+</script>
 <div class="content">
   <div class="container-fluid">
     <div class="row">

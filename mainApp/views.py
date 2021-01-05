@@ -57,7 +57,7 @@ def client_group():
     sql = "SELECT client_id, SUM(quantity) AS quantity, COUNT(*) AS order_nums, SUM(payment) AS total_payment, COUNT(channel) AS channels, COUNT(address) AS address_nums FROM order_list GROUP BY client_id"
     df = pd.read_sql_query(sql, db)
 
-    print(df)
+    
 
     kmeans = KMeans(init='k-means++', n_clusters=3, n_init=10)
     kmeans.fit(df)
@@ -124,9 +124,9 @@ def order(request):
     if request.method == 'POST':
         form2 = FormSetID(request.POST)
         if form2.is_valid():
-            print('form2 valid')
+            
             set_orderid = request.POST.get('set_orderid')
-            print('order id:',set_orderid)
+            
     else:
         form2 = FormSetID()
     
@@ -138,7 +138,7 @@ def order(request):
         form = FormStatus(request.POST)		
         if form.is_valid():
             response = request.POST.get('response')
-            print('form valid Response:',response)
+            
 
             if response =='已審核':
                 replysql = "UPDATE order_list SET status = '已審核' WHERE order_id = ?"
@@ -146,7 +146,7 @@ def order(request):
                 db.commit()
 
             elif response == '備貨中':
-                print('按備貨中')
+                
                 replysql = "UPDATE order_list SET status = '備貨中' WHERE order_id = ?"
                 cursor.execute(replysql, (set_orderid,))
                 db.commit()
@@ -183,7 +183,7 @@ def order(request):
             
         else:
             form = FormStatus()
-            print('fail')
+            
 
     context = {'orderlist':orderlist, 'form':form, 'form2':form2}
     return render(request, 'order.html', context)
@@ -199,14 +199,14 @@ def refund(request):
     sql = "SELECT order_id FROM return"
     cursor.execute(sql)
     res = cursor.fetchall()
-    #print('RESSSS', res)
+    #
     return_id = list(res)
-    #print('IDDDDDDD', return_id)
+    #
     for i in return_id:
         orderid, = i
         orderid = '{}'.format(orderid)
         id_list.append(orderid)
-    #print(id_list)
+    #
     #orderid, = res
 	#orderid1, orderid2, orderid3 = tem_teamid
     #data = '{}'.format(teamid)
@@ -236,8 +236,8 @@ def refund(request):
         res4 = cursor.fetchall()
         namelist.extend(res4)
     wholelist = list(x + y for x, y in zip(returnlist, detaillist))
-    print('EVERYYYYYYY', wholelist)
-    #print(returnlist)
+    
+    #
 
     form = checkReturn()
     if request.method == 'POST':
@@ -245,7 +245,7 @@ def refund(request):
         if form2.is_valid():
             
             set_orderid = request.POST.get('set_orderid')
-            #print('order id:',set_orderid)
+            #
             sql_sta = "SELECT status FROM order_list WHERE order_id = ?"
             cursor.execute(sql_sta, (set_orderid,))
             res = cursor.fetchall()
@@ -254,7 +254,7 @@ def refund(request):
             status = '{}'.format(rep)
             if status == "退貨審核不通過":
                 form2 = '此訂單先前已被審核為不通過，貨品已退回顧客，請重新整理頁面！'
-                #print("STATUS: ",status)
+                #
             elif status == "已辦理退貨":
                 form2 = '此訂單先前已被審核為通過，貨品已退回倉庫，請重新整理頁面！'
             else:
@@ -278,7 +278,7 @@ def refund(request):
                             num, name = num_name
                             quantity = '{}'.format(num)
                             name = '{}'.format(name)
-                            #print('name: ', name, 'quantity: ', quantity)
+                            #
 
                             sql_inv = "SELECT inventory, safety_stock FROM product WHERE product_name = ?"
                             cursor.execute(sql_inv, (name,))
@@ -287,7 +287,7 @@ def refund(request):
                             inventory, safety = inv
                             inventory = '{}'.format(inventory)
                             safety = '{}'.format(safety)
-                            #print('inventory: ', inventory, 'safety: ', safety)
+                            #
                             final_inv = int(inventory) + int(quantity)
 
                             sql_inv = "UPDATE product SET inventory = ? WHERE product_name = ?"
