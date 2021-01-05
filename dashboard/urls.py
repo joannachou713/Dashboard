@@ -24,5 +24,6 @@ urlpatterns = [
     path('test/order_list', order),
     path('marketing/', renderMarketing),
     path('rrt/<int:m>', rrt),
+    path('test/return', refund),
 
 ]

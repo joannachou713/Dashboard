@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from .forms import FormStatus
+from .forms import checkReturn
 # Create your models here.
 
 
@@ -35,5 +36,12 @@ class Status(models.Model):
         ('已到達', '已到達'),
         ('已辦理退貨', '已辦理退貨'),
         ('退貨審核不通過', '退貨審核不通過')
+    )
+    response = models.CharField(default=0, choices=FormStatus.SELVALUE, verbose_name='response',max_length=20)
+
+class Return(models.Model):
+    SELVALUE = (
+        ('確認退貨', '確認退貨'),
+        ('資格不符', '資格不符')
     )
     response = models.CharField(default=0, choices=FormStatus.SELVALUE, verbose_name='response',max_length=20)
