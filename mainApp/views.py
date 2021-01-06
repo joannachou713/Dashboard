@@ -96,109 +96,9 @@ def order(request):
 def product(request):
     db = sqlite3.connect('mainApp.db')
     cursor = db.cursor()
+    
+    ## 下訂單
     i=0
-    ###Show 訂單列表
-    sql = "SELECT * FROM product"
-    cursor.execute(sql)
-    res = cursor.fetchall()
-    product_info = list(res)
-    # product_info = ''
-    print(request.POST)
-    
-    pid = filterSetID()
-    ### 輸入order id 
-    if request.method == 'POST':
-        pid = filterSetID(request.POST)
-        if pid.is_valid():
-            print('Product query valid')
-            set_productid = request.POST.get('set_productid')
-            print('product id:',set_productid)
-
-            id_replysql = "SELECT * FROM product WHERE product_id={}".format(set_productid)
-            print(id_replysql)
-            cursor.execute(id_replysql)
-            res = cursor.fetchall()
-            product_info = list(res)
-
-        else:
-            pid = filterSetID()
-    
-    all_info = []
-    reorder_points = []
-    preorder_info = []
-
-    pcategory = filterCategory()
-    if request.method == "POST":
-        pcategory = filterCategory(request.POST)		
-        if pcategory.is_valid():
-            response = request.POST.get('response')
-            # print(response)
-            
-            #沒選類別時
-            replysql = "SELECT * FROM product WHERE product_category='{}'".format(response)
-            cursor.execute(replysql)
-            res = cursor.fetchall()
-            product_info = list(res)
-            for p in product_info:
-
-                preorder_combo = []
-                p_status = ''
-                print(p)
-                numberOrder_sql = "SELECT COUNT(product) FROM order_list WHERE product='{}'".format(p[1])
-                cursor.execute(numberOrder_sql)
-                numberOfOrder = cursor.fetchall()[0][0]
-                # print(numberOfOrder)   
-
-                day_sql = "SELECT COUNT(DISTINCT order_time) FROM order_list"
-                cursor.execute(day_sql)
-                numberOfDay = cursor.fetchall()[0][0]
-                
-                if numberOfOrder == 0:
-                    numberOfOrder = 1
-                if numberOfDay == 0:
-                    numberOfDay = 1
-            
-
-                #再訂購點 = 平均日需求×訂貨天數+安全存貨量
-                daily_demand = round(numberOfOrder/numberOfDay, 2)
-                reorder_point = round(daily_demand*p[8]+p[9])
-                # print(reorder_point)
-                reorder_points.append(reorder_point)
-
-                #最佳訂購量 = ((2*需求*單位訂購成本)/單位持有成本)^1/2
-                purchase_quantity = round(math.sqrt(2*numberOfOrder*p[4]/p[5]))
-
-                #購買成本 = 需購數量*購買成本
-                purchase_cost = purchase_quantity*p[4]
-                
-                #預訂日期 = (存貨數量-再訂購點)/平均日需求
-                preorder_day = round((p[6]-reorder_point) / daily_demand,2)
-                
-                #訂購狀況
-                if purchase_quantity <= 0:
-                    p_status = '無須訂購'
-                elif purchase_quantity > 0:
-                    p_status = '需要訂購'
-                elif preorder_day <= 0:
-                    p_status = '已達再訂購點'
-                
-                replysql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format(p_status, p[0])
-                cursor.execute(replysql)
-                db.commit()
-
-                preorder_combo.append(purchase_quantity)
-                preorder_combo.append(purchase_cost)
-                preorder_combo.append(p_status)
-                preorder_combo.append(preorder_day)
-                
-                preorder_info.append(preorder_combo)
-
-        else:
-            pcategory = filterCategory()
-            print('fail')
-    
-    
-    # 下訂單
     for r in request.POST:
         if 'btn' in r:
             index = i
@@ -239,11 +139,9 @@ def product(request):
                     else:
                         index_r = index_r+1
             
-
             except:
                 
                 index_r = 0
-            
                 for r in request.POST:
                     if index_r == index-1:
                         purchasing_c = r
@@ -277,9 +175,9 @@ def product(request):
                         index_r = index_r+1
         else:
             i = i+1
-        
+
     h = 0
-    # 確認訂單
+    ## 確認訂單
     for r in request.POST:
         if 'confirm' in r:
             index = h
@@ -354,14 +252,147 @@ def product(request):
             h = h+1
 
 
-    all_info = zip(product_info, reorder_points)
-    all_info2 = zip(product_info, preorder_info)
+    ###Show 訂單列表
+    sql = "SELECT * FROM product"
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    product_info = list(res)
+    print(request.POST)
+
+    ### 給夏拉是選單
+    dropsql = "SELECT DISTINCT product_category FROM product"
+    cursor.execute(dropsql)
+    res = cursor.fetchall()
+    pcategory_all = list(res)
+    
+    ### 輸入order id 
+    try:
+        pid = request.POST.get('pid')
+        pcategory = request.POST.get('response')
+        if not pid == '':
+            id_replysql = "SELECT * FROM product WHERE product_id={}".format(pid)
+            print(id_replysql)
+            cursor.execute(id_replysql)
+            res = cursor.fetchall()
+            product_info = list(res)
+        
+        elif not '請選擇產品類別' in pcategory:
+            pcategory = pcategory.replace('(','').replace(')','').replace(',','').replace("'",'')
+            replysql = "SELECT * FROM product WHERE product_category='{}'".format(pcategory)
+            cursor.execute(replysql)
+            res = cursor.fetchall()
+            product_info = list(res)
+
+        else:
+            ###Show 訂單列表
+            sql = "SELECT * FROM product"
+            cursor.execute(sql)
+            res = cursor.fetchall()
+            product_info = list(res)
+    except:
+        pass
+
+    
+    reorder_points = []
+    preorder_info = []
+    
+    for p in product_info:
+
+        preorder_combo = []
+        p_status = ''
+        print(p)
+        numberorder_sql = "SELECT COUNT(product) FROM order_list WHERE product='{}'".format(p[1])
+        cursor.execute(numberorder_sql)
+        numberOfOrder = cursor.fetchall()[0][0]
+        # print(numberOfOrder)   
+
+        day_sql = "SELECT COUNT(DISTINCT order_time) FROM order_list"
+        cursor.execute(day_sql)
+        numberOfDay = cursor.fetchall()[0][0]
+        
+        if numberOfOrder == 0:
+            numberOfOrder = 1
+        if numberOfDay == 0:
+            numberOfDay = 1
+    
+
+        #再訂購點 = 平均日需求×訂貨天數+安全存貨量
+        daily_demand = round(numberOfOrder/numberOfDay, 2)
+        reorder_point = round(daily_demand*p[8]+p[9])
+        # print(reorder_point)
+        reorder_points.append(reorder_point)
+
+        #最佳訂購量 = ((2*需求*單位訂購成本)/單位持有成本)^1/2
+        purchase_quantity = round(math.sqrt(2*numberOfOrder*p[4]/p[5]))
+
+        #購買成本 = 需購數量*購買成本
+        purchase_cost = purchase_quantity*p[4]
+        
+        #預訂日期 = (存貨數量-再訂購點)/平均日需求
+        preorder_day = round((p[6]-reorder_point) / daily_demand,2)
+
+        
+        #訂購狀況
+        status_sql = "SELECT p_status FROM product WHERE product_id = {}".format(p[0])
+        cursor.execute(status_sql)
+        status = cursor.fetchall()[0][0]
+
+        # try:
+        #     status_sql = "SELECT status FROM purchasing WHERE purchasing_item = '{}'".format(p[1])
+        #     cursor.execute(status_sql)
+        #     pur_status = cursor.fetchall()[0][0]
+
+        #     if pur_status == '貨到啦':
+        #         status_sql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format('貨到啦', p[0])
+        #         cursor.execute(status_sql)
+        #         db.commit()
+
+        #         if status == '已下訂':
+        #             p_status = '已下訂'
+        #         elif purchase_quantity <= 0:
+        #             p_status = '無須訂購'
+        #         elif purchase_quantity > 0:
+        #             p_status = '需要訂購'
+        #         elif preorder_day <= 0:
+        #             p_status = '已達再訂購點' 
+        # except:
+        #     pass
+
+        if status == '已下訂':
+            p_status = '已下訂'
+        elif purchase_quantity <= 0:
+            p_status = '無須訂購'
+        elif purchase_quantity > 0:
+            p_status = '需要訂購'
+        elif preorder_day <= 0:
+            p_status = '已達再訂購點' 
+        
+        
+        replysql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format(p_status, p[0])
+        cursor.execute(replysql)
+        db.commit()
+
+        preorder_combo.append(purchase_quantity)
+        preorder_combo.append(purchase_cost)
+        preorder_combo.append(p_status)
+        preorder_combo.append(preorder_day)
+        
+        preorder_info.append(preorder_combo)
+    
+    
+    
+        
+    
 
 
-    context = {'product_info':product_info, 'pcategory':pcategory, 'pid':pid, 
-    'reorder':reorder_points, 
-    'all_info':all_info, 'all_info2':all_info2}
+    re_info = zip(product_info, reorder_points)
+    pre_info = zip(product_info, preorder_info)
 
-    return render(request, 'product.html', context)
+
+    # context = {'product_info':product_info, 'pcategory':pcategory, 'pid':pid, 
+    # 'reorder':reorder_points, 
+    # 'all_info':all_info, 'all_info2':all_info2}
+
+    return render(request, 'product.html', locals())
 
 
