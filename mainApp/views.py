@@ -94,6 +94,7 @@ def order(request):
     return render(request, 'order.html', context)
 
 def product(request):
+
     db = sqlite3.connect('mainApp.db')
     cursor = db.cursor()
     
@@ -337,35 +338,36 @@ def product(request):
         cursor.execute(status_sql)
         status = cursor.fetchall()[0][0]
 
-        # try:
-        #     status_sql = "SELECT status FROM purchasing WHERE purchasing_item = '{}'".format(p[1])
-        #     cursor.execute(status_sql)
-        #     pur_status = cursor.fetchall()[0][0]
+        try:
+            status_sql = "SELECT status FROM purchasing WHERE purchasing_item = '{}'".format(p[1])
+            cursor.execute(status_sql)
+            pur_status = cursor.fetchall()[0][0]
 
-        #     if pur_status == '貨到啦':
-        #         status_sql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format('貨到啦', p[0])
-        #         cursor.execute(status_sql)
-        #         db.commit()
+            if pur_status == '貨到啦':
+                status_sql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format('貨到啦', p[0])
+                cursor.execute(status_sql)
+                db.commit()
 
-        #         if status == '已下訂':
-        #             p_status = '已下訂'
-        #         elif purchase_quantity <= 0:
-        #             p_status = '無須訂購'
-        #         elif purchase_quantity > 0:
-        #             p_status = '需要訂購'
-        #         elif preorder_day <= 0:
-        #             p_status = '已達再訂購點' 
-        # except:
-        #     pass
+                if purchase_quantity <= 0:
+                    p_status = '無須訂購'
+                elif purchase_quantity > 0:
+                    p_status = '需要訂購'
+                elif preorder_day <= 0:
+                    p_status = '已達再訂購點' 
+            
+            elif pur_status == '出貨中':
+                p_status = '已下訂'
 
-        if status == '已下訂':
-            p_status = '已下訂'
-        elif purchase_quantity <= 0:
-            p_status = '無須訂購'
-        elif purchase_quantity > 0:
-            p_status = '需要訂購'
-        elif preorder_day <= 0:
-            p_status = '已達再訂購點' 
+        except:
+
+            if status == '已下訂':
+                p_status = '已下訂'
+            elif purchase_quantity <= 0:
+                p_status = '無須訂購'
+            elif purchase_quantity > 0:
+                p_status = '需要訂購'
+            elif preorder_day <= 0:
+                p_status = '已達再訂購點' 
         
         
         replysql = "UPDATE product SET p_status = '{}' WHERE product_id = {}".format(p_status, p[0])
@@ -380,11 +382,6 @@ def product(request):
         preorder_info.append(preorder_combo)
     
     
-    
-        
-    
-
-
     re_info = zip(product_info, reorder_points)
     pre_info = zip(product_info, preorder_info)
 
@@ -395,4 +392,27 @@ def product(request):
 
     return render(request, 'product.html', locals())
 
+def purchasing(request):
+
+    db = sqlite3.connect('mainApp.db')
+    cursor = db.cursor()
+
+    sql = "SELECT * FROM purchasing"
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    purchasing_info = list(res)
+
+    print(request.POST)
+    try:
+        pid = request.POST.get('pid')
+        if not pid == '':
+            id_replysql = "SELECT * FROM purchasing WHERE purchasing_id={}".format(pid)
+            print(id_replysql)
+            cursor.execute(id_replysql)
+            res = cursor.fetchall()
+            purchasing_info = list(res)
+    except:
+        pass
+
+    return render(request, 'purchasing.html', locals())
 

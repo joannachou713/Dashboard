@@ -23,4 +23,5 @@ urlpatterns = [
     path('test/', template_test),
     path('test/order_list', order),
     path('test/product', product),
+    path('test/purchasing', purchasing)
 ]
