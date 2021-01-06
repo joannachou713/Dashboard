@@ -6,201 +6,182 @@ Product management
 {% endblock %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../static/img/favicon.png">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-  <!-- CSS Files -->
-  <link href="../static/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../static/demo/demo.css" rel="stylesheet" />
-</head>
+<script>
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(4)').classList.add('active')
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
+</script>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <p class="card-category"> 產品總覽</p>
+          </div>
+          <div class="card-body">
+            <div class="form">
+              <form method="POST" class="post-form" action="">
+                {% csrf_token %}
+                {{pid}}
+                <select id="response" name="response">
+                  <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
+                  {% for key,value in pcategory.PCATEGORY %}
+                  <option value="{{key}}" name="response">{{value}}</option>
+                  {% endfor %}
+                </select>
+                <input type="submit" class="btn" value="搜尋">
+              </form>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    產品編號
+                  </th>
+                  <th>
+                    產品名稱
+                  </th>
+                  <th>
+                    產品類別
+                  </th>
+                  <th>
+                    售價
+                  </th>
+                  <th>
+                    單位成本
+                  </th>
+                  <th>
+                    持有成本
+                  </th>
+                  <th>
+                    存貨
+                  </th>
+                  <th>
+                    存貨位置
+                  </th>
+                  <th>
+                    lead time(day)
+                  </th>
+                  <th>
+                    安全存貨
+                  </th>
+                  <th>
+                    再訂購點
+                  </th>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for p,r in all_info %}
+                  <tr>
+                    <td>{{p.0}}</td>
+                    <td>{{p.1}}</td>
+                    <td>{{p.2}}</td>
+                    <td>${{p.3}}</td>
+                    <td>${{p.4}}</td>
+                    <td>{{p.5}}</td>
+                    <td>{{p.6}}</td>
+                    <td>{{p.7}}</td>
+                    <td>{{p.8}}</td>
+                    <td>{{p.9}}</td>
+                    <td>{{r}}</td>
 
-<body class="dark-edition">
+                  </tr>
+                  {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <p class="card-category"> 訂購排程</p>
+          </div>
+          <div class="card-body">
+            <div class="form">
+              <form method="POST" class="post-form" action="">
+                {% csrf_token %}
+                {{pid}}
+                <select id="response" name="response">
+                  <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
+                  {% for key,value in pcategory.PCATEGORY %}
+                  <option value="{{key}}" name="response">{{value}}</option>
+                  {% endfor %}
+                </select>
+                <input type="submit" class="btn" value="搜尋">
+              </form>
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    產品編號
+                  </th>
+                  <th>
+                    產品名稱
+                  </th>
+                  <th>
+                    目前存貨
+                  </th>
+                  <th>
+                    最佳訂購量
+                  </th>
+                  <th>
+                    購買成本
+                  </th>
+                  <th>
+                    訂購狀況
+                  </th>
+                  <th>
+                    預訂日期
+                  </th>
+                  <th>
+                    一鍵下訂
+                  </th>
+                  <th>
+                    確認訂單
+                  </th>
+                </thead>
+                <form method="POST" class="post-form" action="">
+                  {% csrf_token %}
+                  <tbody>
+                    <tr>
+                      {% for p, o in all_info2 %}
+                    <tr>
+                      <td>{{p.0}}<input type="hidden" name="{{p.0}}" value="{{p.0}}"></td>
+                      <td>{{p.1}}<input type="hidden" name="{{p.1}}" value="{{p.1}}"></td>
+                      <td>{{p.6}}<input type="hidden" name="{{p.6}}" value="{{p.6}}"></td>
+                      <td>{{o.0}}<input type="hidden" name="{{o.0}}" value="{{o.0}}"></td>
+                      <td>${{o.1}}<input type="hidden" name="{{o.1}}" value="{{o.1}}"></td>
+                      <td>{{o.2}}<input type="hidden" name="{{o.2}}" value="{{o.2}}"></td>
+                      <td>{{o.3}}天後</td>
+                      <td><input type="submit" class="btn" value="訂購" name="btn{{p.0}}"></td>
+                      <td><input type="submit" class="btn" value="貨到" name="confirm{{p.0}}"></td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
 
-      <!-- End Navbar -->
-      <div class="content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <p class="card-category"> 產品總覽</p>
-                </div>
-                <div class="card-body">
-                  <div class="form">
-                    <form method="POST" class="post-form" action="">
-                      {% csrf_token %}
-                      {{pid}}
-                      <select id="response" name="response">
-                        <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
-                        {% for key,value in pcategory.PCATEGORY %}
-                            <option value="{{key}}" name="response">{{value}}</option>
-                        {% endfor %}
-                      </select>
-                      <input type="submit" class="btn" value="搜尋">
-                    </form>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>
-                          產品編號
-                        </th>
-                        <th>
-                          產品名稱
-                        </th>
-                        <th>
-                          產品類別
-                        </th>
-                        <th>
-                          售價
-                        </th>
-                        <th>
-                          單位成本
-                        </th>
-                        <th>
-                          持有成本
-                        </th>
-                        <th>
-                          存貨
-                          </th>
-                        <th>
-                          存貨位置
-                        </th>
-                        <th>
-                          lead time(day)
-                        </th>
-                        <th>
-                          安全存貨
-                        </th>
-                        <th>
-                          再訂購點
-                        </th>
-                      </thead>
-                      <tbody>
-                        <tr>
-                            {% for p,r in all_info %}
-                        <tr>
-                            <td>{{p.0}}</td>
-                            <td>{{p.1}}</td>
-                            <td>{{p.2}}</td>
-                            <td>${{p.3}}</td>
-                            <td>${{p.4}}</td>
-                            <td>{{p.5}}</td>
-                            <td>{{p.6}}</td>
-                            <td>{{p.7}}</td>
-                            <td>{{p.8}}</td>
-                            <td>{{p.9}}</td>
-                            <td>{{r}}</td>
-  
-                        </tr>
-                         {% endfor %}
-                        </tr> 
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <p class="card-category"> 訂購排程</p>
-                </div>
-                <div class="card-body">
-                  <div class="form">
-                    <form method="POST" class="post-form" action="">
-                      {% csrf_token %}
-                      {{pid}}
-                      <select id="response" name="response">
-                        <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
-                        {% for key,value in pcategory.PCATEGORY %}
-                            <option value="{{key}}" name="response">{{value}}</option>
-                        {% endfor %}
-                      </select>
-                      <input type="submit" class="btn" value="搜尋">
-                    </form>
-                  </div>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <th>
-                          產品編號
-                        </th>
-                        <th>
-                          產品名稱
-                        </th>
-                        <th>
-                          目前存貨
-                        </th>
-                        <th>
-                          最佳訂購量
-                        </th>
-                        <th>
-                          購買成本
-                        </th>
-                        <th>
-                          訂購狀況
-                        </th>
-                        <th>
-                          預訂日期
-                        </th>
-                        <th>
-                          一鍵下訂
-                        </th>
-                        <th>
-                          確認訂單
-                        </th>
-                      </thead>
-                      <form method="POST" class="post-form" action="">
-                        {% csrf_token %}
-                        <tbody>                            
-                          <tr>
-                            {% for p, o in all_info2 %}
-                          <tr>
-                            <td>{{p.0}}<input type="hidden" name="{{p.0}}" value="{{p.0}}"></td>
-                            <td>{{p.1}}<input type="hidden" name="{{p.1}}" value="{{p.1}}"></td>
-                            <td>{{p.6}}<input type="hidden" name="{{p.6}}" value="{{p.6}}"></td>
-                            <td>{{o.0}}<input type="hidden" name="{{o.0}}" value="{{o.0}}"></td>
-                            <td>${{o.1}}<input type="hidden" name="{{o.1}}" value="{{o.1}}"></td>
-                            <td>{{o.2}}<input type="hidden" name="{{o.2}}" value="{{o.2}}"></td>
-                            <td>{{o.3}}天後</td>
-                            <td><input type="submit" class="btn" value="訂購" name="btn{{p.0}}"></td>
-                            <td><input type="submit" class="btn" value="貨到" name="confirm{{p.0}}"></td>
-                          </tr>
-                          {% endfor %}
-                          </tr> 
-                          
-                        </tbody>
-                      </form>
-                    </table>
-                  </div>
-                </div>
-              </div>
+                  </tbody>
+                </form>
+              </table>
             </div>
           </div>
         </div>
       </div>
-      
-   
     </div>
   </div>
-
-  <script>
-    if ( window.history.replaceState ) {
-      window.history.replaceState( null, null, window.location.href );
-    }
-  </script>
-</body>
+</div>
 
 
-</html>
+
+<script>
+  if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
+
+
+
+
 {% endblock %}

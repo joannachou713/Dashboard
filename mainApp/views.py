@@ -21,9 +21,31 @@ import numpy as np
 from io import BytesIO
 import urllib, base64
 from .forms import checkReturn
+from .filter import *
 
-def template_test(request):
-    return render(request, 'example.html')
+def rederHome(request):
+    rrt3 = rrt(3)
+    rrt2 = rrt(2)
+    rrt1 = rrt(1)
+    lss3 = round(1-rrt3, 2)
+    lss2 = round(1-rrt2, 2)
+    lss1 = round(1-rrt1, 2)
+    srt1 = round(rrt1,5)
+    srt2 = round(rrt2*srt1,5)
+    srt3 = round(rrt3*srt2,5)
+    avg_term = round(term(srt1, srt2, srt3), 3)
+
+
+    db = sqlite3.connect('mainApp.db')
+    cursor = db.cursor()
+
+    ###Show 訂單列表
+    sql = "SELECT * FROM order_list WHERE order_time LIKE '2021/3/%'"
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    orderlist = list(res)
+
+    return render(request, 'home.html', locals())
 
 def rrt(m):
     db = sqlite3.connect('mainApp.db')

@@ -1,0 +1,371 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Example Page
+{% endblock %}
+
+{% block content %}
+<!-- Examples -->
+
+<script>
+  const handleRRT = (m) => {
+    let rrt = "{{rrt3}} <small>%</small>"
+    let show = "3 月留存率"
+    switch (m) {
+      case 1:
+        rrt = "{{rrt1}} <small>%</small>"
+        show = "1 月留存率"
+        break;
+      case 2:
+        rrt = "{{rrt2}} <small>%</small>"
+        show = "2 月留存率"
+        break;
+      default:
+        break;
+    }
+    document.querySelector('#rrt').innerHTML = rrt
+    document.querySelector('#mon-rrt').innerHTML = show
+  }
+
+  const handleLSS = (m) => {
+    let lss = "{{lss3}} <small>%</small>"
+    let show = "3 月流失率"
+    switch (m) {
+      case 1:
+        lss = "{{lss1}} <small>%</small>"
+        show = "1 月流失率"
+        break;
+      case 2:
+        lss = "{{lss2}} <small>%</small>"
+        show = "2 月流失率"
+        break;
+      default:
+        break;
+    }
+    document.querySelector('#lss').innerHTML = lss
+    document.querySelector('#mon-lss').innerHTML = show
+  }
+
+  const handleSRT = (m) => {
+    let lss = "{{srt3}} <small>%</small>"
+    let show = "3 月存活率"
+    switch (m) {
+      case 1:
+        lss = "{{srt1}} <small>%</small>"
+        show = "1 月存活率"
+        break;
+      case 2:
+        lss = "{{srt2}} <small>%</small>"
+        show = "2 月存活率"
+        break;
+      default:
+        break;
+    }
+    document.querySelector('#srt').innerHTML = lss
+    document.querySelector('#mon-srt').innerHTML = show
+  }
+</script>
+
+
+<div class="container-fluid">
+  
+  <div class="row">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header card-header-warning card-header-icon">
+          <div class="card-icon">
+            <i class="material-icons">content_copy</i>
+          </div>
+          <p class="card-category" id='mon-rrt'>當月留存率</p>
+          <h3 class="card-title">
+            <div id='rrt'>{{rrt3}}
+              <small>%</small>
+            </div>
+          </h3>
+        </div>
+        <div class="card-footer">
+          <div class="stats d-flex justify-content-between justify-items-center w-100">
+            <button class='btn' style="width: 65px!important;" onclick='handleRRT(1)'>1 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleRRT(2)'>2 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleRRT(3)'>3 月</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header card-header-success card-header-icon">
+          <div class="card-icon">
+            <i class="material-icons">store</i>
+          </div>
+          <p class="card-category" id='mon-lss'>當月流失率</p>
+          <h3 class="card-title">
+            <div id='lss'>{{lss3}}
+              <small>%</small>
+            </div>
+          </h3>
+        </div>
+        <div class="card-footer">
+          <div class="stats d-flex justify-content-between justify-items-center w-100">
+            <button class='btn' style="width: 65px!important;" onclick='handleLSS(1)'>1 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleLSS(2)'>2 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleLSS(3)'>3 月</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header card-header-danger card-header-icon">
+          <div class="card-icon">
+            <i class="material-icons">info_outline</i>
+          </div>
+          <p class="card-category" id='mon-srt'>當月存活率</p>
+          <h3 class="card-title">
+            <div id='srt'>{{srt3}}
+              <small>%</small>
+            </div>
+          </h3>
+        </div>
+        <div class="card-footer">
+          <div class="stats d-flex justify-content-between justify-items-center w-100">
+            <button class='btn' style="width: 65px!important;" onclick='handleSRT(1)'>1 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleSRT(2)'>2 月</button>
+            <button class='btn' style="width: 65px!important;" onclick='handleSRT(3)'>3 月</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+      <div class="card card-stats">
+        <div class="card-header card-header-info card-header-icon">
+          <div class="card-icon">
+            <i class="fa fa-twitter"></i>
+          </div>
+          <p class="card-category">平均存續期間</p>
+          <h3 class="card-title">{{avg_term}}</h3>
+        </div>
+        <div class="card-footer">
+          <div class="stats">
+            <i class="material-icons">update</i> Just Updated
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <p class="card-category"> 顧客訂單</p>
+        </div>
+        <div class="card-body">
+          <div id="refresh1">
+            <div class="table-responsive" id='refresh'>
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    訂單編號
+                  </th>
+                  <th>
+                    顧客編號
+                  </th>
+                  <th>
+                    購買產品
+                  </th>
+                  <th>
+                    數量
+                  </th>
+                  <th>
+                    產品金額
+                  </th>
+                  <th>
+                    收件地址
+                  </th>
+                  <th>
+                    運費
+                  </th>
+                  <th>
+                    付款金額
+                  </th>
+                  <th>
+                    通路
+                  </th>
+                  <th>
+                    下訂時間
+                  </th>
+
+                  <th>
+                    包裹時間
+                  </th>
+                  <th>
+                    到貨時間
+                  </th>
+                  <th>
+                    訂單狀態
+                  </th>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for order in orderlist %}
+                  <tr>
+                    <td>{{order.0}}</td>
+                    <td>{{order.1}}</td>
+                    <td>{{order.2}}</td>
+                    <td>{{order.3}}</td>
+                    <td>${{order.4}}</td>
+                    <td>{{order.5}}</td>
+                    <td>${{order.6}}</td>
+                    <td>${{order.7}}</td>
+                    <td>{{order.8}}</td>
+                    <td>{{order.9}}</td>
+                    <td>{{order.10}}</td>
+                    <td>{{order.11}}</td>
+                    <td>{{order.12}}</td>
+                  </tr>
+                  {% endfor %}
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-plain">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title mt-0"> 退貨原因</h4>
+          <p class="card-category"> 統整退貨原因供日後改進</p>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <figure class="highcharts-figure">
+              <div id="container"></div>
+              <p class="highcharts-description">
+
+              </p>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+<script src="https://code.highcharts.com/themes/high-contrast-light.js"></script>
+<script>
+
+function getColorPattern(i) {
+  var colors = Highcharts.getOptions().colors,
+    patternColors = [colors[2], colors[0], colors[3], colors[1], colors[4]],
+    patterns = [
+      'M 0 0 L 5 5 M 4.5 -0.5 L 5.5 0.5 M -0.5 4.5 L 0.5 5.5',
+      'M 0 5 L 5 0 M -0.5 0.5 L 0.5 -0.5 M 4.5 5.5 L 5.5 4.5',
+      'M 1.5 0 L 1.5 5 M 4 0 L 4 5',
+      'M 0 1.5 L 5 1.5 M 0 4 L 5 4',
+      'M 0 1.5 L 2.5 1.5 L 2.5 0 M 2.5 5 L 2.5 3.5 L 5 3.5'
+    ];
+
+  return {
+    pattern: {
+      path: patterns[i],
+      color: patternColors[i],
+      width: 5,
+      height: 5
+    }
+  };
+}
+
+Highcharts.chart('container', {
+  chart: {
+    type: 'pie'
+  },
+
+  title: {
+    text: '退貨原因比例分配'
+  },
+
+  tooltip: {
+    valueSuffix: '%',
+    borderColor: '#8ae'
+  },
+
+  plotOptions: {
+    series: {
+      dataLabels: {
+        enabled: true,
+        connectorColor: '#777',
+        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+      },
+      point: {
+        events: {
+
+        }
+      },
+      cursor: 'pointer',
+      borderWidth: 3
+    }
+  },
+
+  series: [{
+    name: name,
+    data: [{
+      name: '買錯',
+      y: 54.6,
+      color: getColorPattern(0),
+
+    }, {
+      name: '鍋子太大',
+      y: 29.1,
+      color: getColorPattern(1),
+    }, {
+      name: '太醜',
+      y: 9.9,
+      color: getColorPattern(2),
+    }, {
+      name: '太重',
+      y: 2,
+      color: getColorPattern(3),
+    }, {
+      name: '我就不喜歡',
+      y: 4.4,
+      color: getColorPattern(4),
+    }]
+  }],
+
+  responsive: {
+    rules: [{
+      condition: {
+        maxWidth: 500
+      },
+      chartOptions: {
+        plotOptions: {
+          series: {
+            dataLabels: {
+              format: '<b>{point.name}</b>'
+            }
+          }
+        }
+      }
+    }]
+  }
+});
+
+
+if (window.history.replaceState) {
+  window.history.replaceState(null, null, window.location.href);
+}
+</script>
+{% endblock %}
