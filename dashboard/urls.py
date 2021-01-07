@@ -26,4 +26,6 @@ urlpatterns = [
     path('rrt/<int:m>', rrt),
     path('return/', refund),
     path('product/', product),
+
+    path('purchasing/', purchasing)
 ]

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Purchasing
+{% endblock %}
+
+{% block content %}
+<script>
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(5)').classList.add('active')
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
+</script>
+
+<!-- End Navbar -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form">
+          <form method="POST" class="post-form" action="">
+            {% csrf_token %}
+            請輸入訂貨編號:<input type="text" name="pid" value="">
+            <input type="submit" class="btn" value="搜尋">
+          </form>
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <p class="card-category"> 訂貨總覽</p>
+            </div>
+            <div class="card-body">
+            </div>
+            <div class="table-responsive">
+              <table class="table">
+                <thead class=" text-primary">
+                  <th>
+                    訂貨編號
+                  </th>
+                  <th>
+                    訂貨時間
+                  </th>
+                  <th>
+                    產品名稱
+                  </th>
+                  <th>
+                    訂貨數量
+                  </th>
+                  <th>
+                    訂貨成本
+                  </th>
+                  <th>
+                    供應商
+                  </th>
+                  <th>
+                    訂單狀態
+                  </th>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for p in purchasing_info %}
+                  <tr>
+                    <td>{{p.0}}</td>
+                    <td>{{p.1}}</td>
+                    <td>{{p.2}}</td>
+                    <td>${{p.3}}</td>
+                    <td>${{p.4}}</td>
+                    <td>{{p.5}}</td>
+                    <td>{{p.6}}</td>
+                    <td>{{p.7}}</td>
+                  </tr>
+                  {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+
+  {% endblock %}

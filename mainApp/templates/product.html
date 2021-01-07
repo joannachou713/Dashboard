@@ -11,27 +11,28 @@ Product management
   document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(4)').classList.add('active')
   document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
 </script>
+<!-- End Navbar -->
 <div class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
+        <div class="form">
+          <form method="POST" class="post-form" action="">
+            {% csrf_token %}
+            請輸入產品編號:<input type="text" name="pid" value="">
+            <select id="response" name="response">
+              <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
+              {% for pcat in pcategory_all %}
+                  <option value="{{pcat}}" name="response">{{pcat}}</option>
+              {% endfor %}
+            </select>
+            <input type="submit" class="btn" value="搜尋">
+          </form>
         <div class="card">
-          <div class="card-header card-header-primary">
+          <div class="card-header card-header-primary">  
             <p class="card-category"> 產品總覽</p>
           </div>
           <div class="card-body">
-            <div class="form">
-              <form method="POST" class="post-form" action="">
-                {% csrf_token %}
-                {{pid}}
-                <select id="response" name="response">
-                  <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
-                  {% for key,value in pcategory.PCATEGORY %}
-                  <option value="{{key}}" name="response">{{value}}</option>
-                  {% endfor %}
-                </select>
-                <input type="submit" class="btn" value="搜尋">
-              </form>
             </div>
             <div class="table-responsive">
               <table class="table">
@@ -56,7 +57,7 @@ Product management
                   </th>
                   <th>
                     存貨
-                  </th>
+                    </th>
                   <th>
                     存貨位置
                   </th>
@@ -72,23 +73,23 @@ Product management
                 </thead>
                 <tbody>
                   <tr>
-                    {% for p,r in all_info %}
+                      {% for p, r in re_info %}
                   <tr>
-                    <td>{{p.0}}</td>
-                    <td>{{p.1}}</td>
-                    <td>{{p.2}}</td>
-                    <td>${{p.3}}</td>
-                    <td>${{p.4}}</td>
-                    <td>{{p.5}}</td>
-                    <td>{{p.6}}</td>
-                    <td>{{p.7}}</td>
-                    <td>{{p.8}}</td>
-                    <td>{{p.9}}</td>
-                    <td>{{r}}</td>
+                      <td>{{p.0}}</td>
+                      <td>{{p.1}}</td>
+                      <td>{{p.2}}</td>
+                      <td>${{p.3}}</td>
+                      <td>${{p.4}}</td>
+                      <td>{{p.5}}</td>
+                      <td>{{p.6}}</td>
+                      <td>{{p.7}}</td>
+                      <td>{{p.8}}</td>
+                      <td>{{p.9}}</td>
+                      <td>{{r}}</td>
 
                   </tr>
-                  {% endfor %}
-                  </tr>
+                   {% endfor %}
+                  </tr> 
                 </tbody>
               </table>
             </div>
@@ -99,18 +100,6 @@ Product management
             <p class="card-category"> 訂購排程</p>
           </div>
           <div class="card-body">
-            <div class="form">
-              <form method="POST" class="post-form" action="">
-                {% csrf_token %}
-                {{pid}}
-                <select id="response" name="response">
-                  <option selected="" class="select" name="response">&nbsp;請選擇產品類別</option>
-                  {% for key,value in pcategory.PCATEGORY %}
-                  <option value="{{key}}" name="response">{{value}}</option>
-                  {% endfor %}
-                </select>
-                <input type="submit" class="btn" value="搜尋">
-              </form>
             </div>
             <div class="table-responsive">
               <table class="table">
@@ -145,9 +134,9 @@ Product management
                 </thead>
                 <form method="POST" class="post-form" action="">
                   {% csrf_token %}
-                  <tbody>
+                  <tbody>                            
                     <tr>
-                      {% for p, o in all_info2 %}
+                      {% for p, o in pre_info %}
                     <tr>
                       <td>{{p.0}}<input type="hidden" name="{{p.0}}" value="{{p.0}}"></td>
                       <td>{{p.1}}<input type="hidden" name="{{p.1}}" value="{{p.1}}"></td>
@@ -160,8 +149,8 @@ Product management
                       <td><input type="submit" class="btn" value="貨到" name="confirm{{p.0}}"></td>
                     </tr>
                     {% endfor %}
-                    </tr>
-
+                    </tr> 
+                    
                   </tbody>
                 </form>
               </table>
@@ -171,6 +160,10 @@ Product management
       </div>
     </div>
   </div>
+</div>
+
+
+</div>
 </div>
 
 
