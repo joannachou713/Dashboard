@@ -20,8 +20,12 @@ from mainApp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/', template_test),
-    path('test/order_list', order),
-    path('test/product', product),
-    path('test/purchasing', purchasing)
+    path('', rederHome),
+    path('order_list/', order),
+    path('marketing/', renderMarketing),
+    path('rrt/<int:m>', rrt),
+    path('return/', refund),
+    path('product/', product),
+
+    path('purchasing/', purchasing)
 ]

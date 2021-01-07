@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from .forms import FormStatus
+from .forms import checkReturn
 # Create your models here.
 
 
@@ -25,18 +26,6 @@ class Order(models.Model):
 
     client_id  = models.ForeignKey(Client, on_delete=models.CASCADE)
 
-class Product(models.Model):
-    product_id = models.IntegerField()
-    product_name = models.CharField(max_length=10)
-    product_category = models.CharField(max_length=10)
-    price = models.IntegerField()
-    cost = models.IntegerField()
-    holding_cost = models.IntegerField()
-    inventory = models.IntegerField()
-    storage_location = models.CharField(max_length=20)
-    lead_time_days = models.IntegerField()
-    safety_stock = models.IntegerField()
-
 class Status(models.Model):
     SELVALUE = (
         ('已審核', '已審核'),
@@ -47,5 +36,12 @@ class Status(models.Model):
         ('已到達', '已到達'),
         ('已辦理退貨', '已辦理退貨'),
         ('退貨審核不通過', '退貨審核不通過')
+    )
+    response = models.CharField(default=0, choices=FormStatus.SELVALUE, verbose_name='response',max_length=20)
+
+class Return(models.Model):
+    SELVALUE = (
+        ('確認退貨', '確認退貨'),
+        ('資格不符', '資格不符')
     )
     response = models.CharField(default=0, choices=FormStatus.SELVALUE, verbose_name='response',max_length=20)

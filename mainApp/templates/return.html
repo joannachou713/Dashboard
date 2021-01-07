@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+退貨訂單管理
+{% endblock %}
+
+
+{% block content %}
+<script>
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li:nth-child(6)').classList.add('active')
+  document.querySelector('body > div.wrapper > div.sidebar > div.sidebar-wrapper > ul > li.nav-item.active').classList.remove('active')
+</script>
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title ">退貨單總覽</h4>
+            <p class="card-category"> 請在此審核商品退貨狀態，確認後即收回訂單，商品退回倉庫且不得再更改審核結果</p>
+          </div>
+          <div class="card-body">
+            <div class="form">
+              <form method="POST" class="post-form" action="">
+                {% csrf_token %}
+                {{form2}}
+                <select id="response" name="response">
+                  <option selected="" class="select" name="response">&nbsp;請確認退貨狀態</option>
+                  {% for key,value in form.SELVALUE %}
+                  <option value="{{key}}" name="response">{{value}}</option>
+                  {% endfor %}
+                </select>
+                <input type="submit" class="btn" value="更改">
+              </form>
+            </div>
+            <div id="refresh1">
+              <div class="card-body" id='refresh'>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        訂單編號
+                      </th>
+                      <th>
+                        客戶編號
+                      </th>
+                      <th>
+                        退貨產品
+                      </th>
+                      <th>
+                        產品編號
+                      </th>
+                      <th>
+                        數量
+                      </th>
+                      <th>
+                        金額
+                      </th>
+                      <th>
+                        收貨地址
+                      </th>
+                      <th>
+                        物流編號
+                      </th>
+                      <th>
+                        通路
+                      </th>
+                      <th>
+                        訂單提出時間
+                      </th>
+                      <th>
+                        退貨理由
+                      </th>
+                      <th>
+                        退貨單狀態
+                      </th>
+                    </thead>
+                    <tbody>
+
+
+                      <tr>
+                        {% for every in wholelist %}
+                      <tr>
+                        <td>{{every.0}}</td>
+                        <td>{{every.1}}</td>
+                        <td>{{every.2}}</td>
+                        <td>{{every.15}}</td>
+                        <td>{{every.3}}</td>
+                        <td>{{every.4}}</td>
+                        <td>{{every.5}}</td>
+                        <td>{{every.13}}</td>
+                        <td>{{every.8}}</td>
+                        <td>{{every.14}}</td>
+                        <td>{{every.16}}</td>
+                        <td>{{every.12}}</td>
+                        <td>
+                          <form method="POST" class="post-form" action="">
+                            {% csrf_token %}
+
+
+                          </form>
+
+                        </td>
+                      </tr>
+                      {% endfor %}
+
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="card card-plain">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title mt-0"> 退貨原因</h4>
+              <p class="card-category"> 統整退貨原因供日後改進</p>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <figure class="highcharts-figure">
+                  <div id="container"></div>
+                  <p class="highcharts-description">
+
+                  </p>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    setInterval("my_function();", 1000);
+    function my_function() {
+      $('#refresh1').load(location.href + ' #refresh');
+    }
+  </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/pattern-fill.js"></script>
+    <script src="https://code.highcharts.com/themes/high-contrast-light.js"></script>
+  <script>
+
+    function getColorPattern(i) {
+      var colors = Highcharts.getOptions().colors,
+        patternColors = [colors[2], colors[0], colors[3], colors[1], colors[4]],
+        patterns = [
+          'M 0 0 L 5 5 M 4.5 -0.5 L 5.5 0.5 M -0.5 4.5 L 0.5 5.5',
+          'M 0 5 L 5 0 M -0.5 0.5 L 0.5 -0.5 M 4.5 5.5 L 5.5 4.5',
+          'M 1.5 0 L 1.5 5 M 4 0 L 4 5',
+          'M 0 1.5 L 5 1.5 M 0 4 L 5 4',
+          'M 0 1.5 L 2.5 1.5 L 2.5 0 M 2.5 5 L 2.5 3.5 L 5 3.5'
+        ];
+
+      return {
+        pattern: {
+          path: patterns[i],
+          color: patternColors[i],
+          width: 5,
+          height: 5
+        }
+      };
+    }
+
+    Highcharts.chart('container', {
+      chart: {
+        type: 'pie'
+      },
+
+      title: {
+        text: '退貨原因比例分配'
+      },
+
+      tooltip: {
+        valueSuffix: '%',
+        borderColor: '#8ae'
+      },
+
+      plotOptions: {
+        series: {
+          dataLabels: {
+            enabled: true,
+            connectorColor: '#777',
+            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+          },
+          point: {
+            events: {
+
+            }
+          },
+          cursor: 'pointer',
+          borderWidth: 3
+        }
+      },
+
+      series: [{
+        name: name,
+        data: [{
+          name: '買錯',
+          y: 54.6,
+          color: getColorPattern(0),
+
+        }, {
+          name: '鍋子太大',
+          y: 29.1,
+          color: getColorPattern(1),
+        }, {
+          name: '太醜',
+          y: 9.9,
+          color: getColorPattern(2),
+        }, {
+          name: '太重',
+          y: 2,
+          color: getColorPattern(3),
+        }, {
+          name: '我就不喜歡',
+          y: 4.4,
+          color: getColorPattern(4),
+        }]
+      }],
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            plotOptions: {
+              series: {
+                dataLabels: {
+                  format: '<b>{point.name}</b>'
+                }
+              }
+            }
+          }
+        }]
+      }
+    });
+
+
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+</div>
+{% endblock %}
